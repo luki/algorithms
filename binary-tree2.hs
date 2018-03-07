@@ -1,7 +1,7 @@
 import Data.Maybe
 
 data Tree a =   Branch { val :: a, ls :: Maybe (Tree a), rs :: Maybe (Tree a) }
-              | Leaf   { val :: a } deriving (Show)
+              | Leaf   { val :: a } deriving (Show, Eq)
 
 newTree :: [a] -> Maybe (Tree a)
 newTree [] = Nothing
@@ -37,3 +37,10 @@ removeElement b@(Branch v ls rs) e
     | e < v  = case rs of
                 Nothing   -> Just b
                 otherwise -> removeElement (fromJust ls) e
+
+formatStr :: (Eq a, Show a) => Tree a -> String
+formatStr (Leaf v)         = "[" ++ show v ++ "]"
+formatStr (Branch v ls rs) = "[" ++ left ++ show v ++ right ++ "]"
+  where maybeFormat s = if s /= Nothing then formatStr $ fromJust s else []
+        left  = maybeFormat ls
+        right = maybeFormat rs
