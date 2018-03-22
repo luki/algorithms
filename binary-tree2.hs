@@ -1,19 +1,19 @@
 import Data.Maybe
 
-data Tree a =   Branch { val :: a, ls :: Maybe (Tree a), rs :: Maybe (Tree a) }
-              | Leaf   { val :: a } deriving (Show, Eq)
-
+data Tree a = Branch { val :: a, ls :: Maybe (Tree a), rs :: Maybe (Tree a) }
+            | Leaf   { val :: a } deriving (Show)
+              
 newTree :: [a] -> Maybe (Tree a)
-newTree [] = Nothing
-newTree l
-    | min == max = Just $ Leaf (l !! min)
-    | otherwise  = Just $ Branch (l !! mid) ls rs
-  where min     = 0
-        max     = length l - 1
-        mid     = ceiling $ fromIntegral max / 2 :: Int
-        rng s e = drop s . take (e + 1)
-        ls      = newTree $ rng min (mid - 1) l
-        rs      = newTree $ rng (mid + 1) max l
+newTree []  = Nothing
+newTree [a] = Just $ Leaf a
+newTree l   = Just $ Branch mid left right
+  where minIndex = 0
+        maxIndex = (length l) - 1
+        midIndex = ceiling $ fromIntegral maxIndex / 2 :: Int
+        
+        mid   = l !! midIndex
+        left  = newTree $ take midIndex l
+        right = newTree $ drop (midIndex + 1) l
 
 addElement :: (Ord a, Eq a) => (Tree a) -> a -> (Tree a)
 addElement lf@(Leaf v) e
