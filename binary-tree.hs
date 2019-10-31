@@ -1,3 +1,5 @@
+-- Video: "Explaining Trees & Binary Trees (+ My Haskell Solution)"
+
 data BinaryTree =   Branch { val :: Int, left :: Maybe BinaryTree, right :: Maybe BinaryTree } 
                   | Leaf { val :: Int } deriving (Show)
                   
@@ -15,3 +17,11 @@ getBT l
         mid = ceiling $ fromIntegral max / 2 :: Int
         left = getRange l min (mid - 1)
         right = getRange l (mid + 1) max
+
+-- Video: "Addition to Binary Trees: Conversion to List (w/ Haskell)"
+
+sortValue :: BinaryTree -> [Int]
+sortValue (Branch val left right) = (maybeBT left) ++ [val] ++ (maybeBT right)
+  where maybeBT bt = case bt of Nothing -> [] 
+                                Just bt -> sortValue bt
+sortValue (Leaf val) = [val]
