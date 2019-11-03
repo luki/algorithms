@@ -1,5 +1,5 @@
-## DESCRIPTION
-## The function h can be used to compare two logical propositions
+-- DESCRIPTION
+-- The function h can be used to compare two logical propositions
 
 import Data.Bool (not)
 
